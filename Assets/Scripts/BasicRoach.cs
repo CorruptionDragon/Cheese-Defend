@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class BasicRoach : MonoBehaviour
 {
+    private float health = 5;
+
     // Start is called before the first frame update
     void Start()
     {
