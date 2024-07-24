@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class BasicRoach : MonoBehaviour
 {
-    private float health = 5;
+    [SerializeField]
+    private float health = 1;
 
-    // Update is called once per frame
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        DecreaseHealth();
+        Destroy(gameObject);
     }
 
     public void DecreaseHealth()
