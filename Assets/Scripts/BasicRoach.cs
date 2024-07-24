@@ -7,6 +7,11 @@ public class BasicRoach : MonoBehaviour
     [SerializeField]
     private float health = 1;
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        DecreaseHealth();
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Destroy(gameObject);
