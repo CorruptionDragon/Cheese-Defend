@@ -6,15 +6,19 @@ public class BasicRoach : MonoBehaviour
 {
     private float health = 5;
 
-    // Start is called before the first frame update
-    void Start()
+    // Update is called once per frame
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        
+        DecreaseHealth();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void DecreaseHealth()
     {
-        
+        health--;
+
+        if (health <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
 }
