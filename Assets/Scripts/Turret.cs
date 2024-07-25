@@ -2,18 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using System.Runtime.CompilerServices;
 
 public class Turret : MonoBehaviour{
 
     [Header("References")]
     [SerializeField] private Transform turretRotationPoint;
     [SerializeField] private LayerMask enemyMask;
+    [SerializeField] private GameObject bulletPrefab;
+    [SerializeField] private Transform firingPoint;
     
     [Header("Attribute")]
     [SerializeField] private float RotationSpeed = 1.0f;
     [SerializeField] private float targetingRange = 5.0f;
+    [SerializeField] private float bps = 1f; //bullets per second
 
     private Transform target;
+    private float TimeUntilFire;
 
     private void Update()
     {
@@ -28,8 +33,30 @@ public class Turret : MonoBehaviour{
         if (!CheckTargetIsInRange())
         {
             target = null;
+        } else{
+            TimeUntilFire += Time.deltaTime;
+            if (TimeUntilFire >= 1f / bps)
+            {
+                Shoot();
+                TimeUntilFire = 0f;
+            }
+            
+
         }
     }
+
+    private void Shoot()
+    {
+
+        GameObject bulletObj = Instantiate(bulletPrefab, firingPoint.position, Quaternion.identity);
+        Bullet bulletScript = bulletObj.GetComponent<Bullet>();
+        bulletScript.SetTarget(target);
+
+
+    }
+
+        
+
 
 
     private void RotateTowardsTarget()
