@@ -5,7 +5,7 @@ using UnityEngine;
 public class BasicRoach : MonoBehaviour
 {
     [SerializeField]
-    private float health = 1;
+    private float health = 10;
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
