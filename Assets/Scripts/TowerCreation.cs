@@ -14,7 +14,7 @@ public class TowerCreation : MonoBehaviour
     private void Start()
     {
         TowersHolder = GameObject.Find("TowersHolder"); //making sure someone doesn't do a stupid
-        if (TowersHolder == null) Debug.LogWarning("No TowersHolder was found. Insert an empty into the scene and rename it to TowersHolder");
+        if (TowersHolder == null) Debug.Log("No TowersHolder was found. Insert an empty into the scene and rename it to TowersHolder");
     }
 
     void Update()
@@ -31,34 +31,34 @@ public class TowerCreation : MonoBehaviour
             Vector2 playerMousePosition = Camera.main.ScreenToWorldPoint(new Vector2(Input.mousePosition.x, Input.mousePosition.y));
 
             bool found = false; //this collision detection feels really messy but it works
-            void SetUnplace()
-            {
-                found = true;
-                CanPlace = false;
-                PlacementObject.GetComponent<SpriteRenderer>().color = new Color(255, 0, 0, 0.75f);
-            }
+            bool InPlaceable = false;
             for (int i = 0; i < TowersHolder.transform.childCount; i++)
             { 
                 Transform Child = TowersHolder.transform.GetChild(i);
                 if (IsTouchingTower(PlacementObject.transform, Child) == true)
                 {
-                    SetUnplace();
+                    found = true;
                     break;
                 }
             }
-            foreach (GameObject Child in GameObject.FindGameObjectsWithTag("NoTowerPlacement"))
+            foreach (GameObject Child in GameObject.FindGameObjectsWithTag("TowerPlacement"))
             {
                 if (found == true) break;
 
-                if (IsTouchingObject(PlacementObject, Child) == true)
+                if (IsTouchingObject(Child, PlacementObject.transform.GetChild(0).gameObject) == true)
                 {
-                    SetUnplace();
+                    InPlaceable = true;
                     break;
                 }
             }
-            if (found == false) { 
+            if (found == false && InPlaceable == true) { 
                 CanPlace = true; 
-                PlacementObject.GetComponent<SpriteRenderer>().color = new Color(0, 255, 0, 0.75f); 
+                ColorObject(PlacementObject, new Color(0, 255, 0, 0.75f));
+            }
+            else
+            {
+                CanPlace = false;
+                ColorObject(PlacementObject, new Color(255, 0, 0, 0.75f));
             }
 
             if (Input.GetMouseButtonDown(0) && CanPlace)
@@ -93,14 +93,35 @@ public class TowerCreation : MonoBehaviour
 
         Vector2 playerMousePosition = Camera.main.ScreenToWorldPoint(new Vector2(Input.mousePosition.x, Input.mousePosition.y));
         PlacementObject = Instantiate(CurrentPlacement, playerMousePosition, Quaternion.identity);
+        PlacementObject.GetComponent<Turret>().enabled = false;
         PlacementObject.name = "TowerPlacement";
-        PlacementObject.GetComponent<SpriteRenderer>().color = new Color(0, 255, 0, 0.75f);
+        ColorObject(PlacementObject, new Color(0, 255, 0, 0.75f));
+    }
+
+    void ColorObject(GameObject ToColor, Color ColorTo)
+    {
+        foreach (SpriteRenderer Child in ToColor.GetComponentsInChildren<SpriteRenderer>())
+        {
+            Child.color = ColorTo;
+        }
     }
 
     bool IsTouchingObject(GameObject First, GameObject Second) //no idea how well this works
     {
-        if (First.GetComponent<SpriteRenderer>().bounds.Intersects(Second.GetComponent<SpriteRenderer>().bounds)) return true;
-        return false;
+        float Size = (Second.transform.localScale.x / 2 + Second.transform.localScale.y / 2) / 2;
+
+        List<Vector3> Points = new List<Vector3>();
+        Points.Add(Second.transform.position + new Vector3(Size, Size, 0));
+        Points.Add(Second.transform.position + new Vector3(Size, -Size, 0));
+        Points.Add(Second.transform.position + new Vector3(-Size, Size, 0));
+        Points.Add(Second.transform.position + new Vector3(-Size, -Size, 0));
+
+        foreach (Vector3 Point in Points)
+        {
+            Debug.DrawLine(new Vector3(Point.x, Point.y, 1), new Vector3(Second.transform.position.x, Second.transform.position.y, 1), Color.red);
+            if (!First.GetComponent<SpriteRenderer>().bounds.Contains(Point)) return false;
+        }
+        return true;
     }
 
     bool IsTouchingTower(Transform First, Transform Second) //guh
@@ -108,7 +129,7 @@ public class TowerCreation : MonoBehaviour
         Vector3 Pos1 = First.position;
         Vector3 Pos2 = Second.position;
 
-        float Distance = Second.localScale.x / 2 + Second.localScale.y / 2;
+        float Distance = (Second.localScale.x / 2 + Second.localScale.y / 2) / 2;
 
         return (Pos2 - Pos1).magnitude < Distance;
     }
