@@ -4,22 +4,25 @@ using UnityEngine;
 
 public class BasicSpawner : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject cockroachPrefab;
+    public List<GameObject> prefabs;
+    public List<Transform> spawnPoints;
+    public float spawnInterval = 2f;
 
-    [SerializeField]
-    private float roachInterval = 3.5f;
-
-    // Start is called before the first frame update
-    void Start()
+    public void StartSpawning()
     {
-        StartCoroutine(spawnEnemy(roachInterval, cockroachPrefab));
+        StartCoroutine(SpawnDelay());
     }
 
-    private IEnumerator spawnEnemy(float interval, GameObject enemy)
+    IEnumerator SpawnDelay()
     {
-        yield return new WaitForSeconds(interval);
-        GameObject newEnemy = Instantiate(enemy, new Vector3(Random.Range(-5f, 5), Random.Range(-6f, 6f), 0), Quaternion.identity);
-        StartCoroutine(spawnEnemy(interval, enemy));
+        SpawnEnemy();
+        yield return new WaitForSeconds(spawnInterval);
+        StartCoroutine(SpawnDelay());
+    }
+
+    void SpawnEnemy()
+    {
+        int randomPrefabID = Random.Range(0,prefabs.Count);
+        GameObject spawnedEnemy = Instantiate(prefabs[randomPrefabID]);
     }
 }
