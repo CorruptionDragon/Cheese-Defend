@@ -5,6 +5,7 @@ using UnityEngine;
 public class TowerCreation : MonoBehaviour
 {
     GameObject TowersHolder = null;
+    CurrencyManger CurrencyManger = null;
 
     GameObject PlacementObject = null;
     GameObject CurrentPlacement = null;
@@ -15,6 +16,8 @@ public class TowerCreation : MonoBehaviour
     {
         TowersHolder = GameObject.Find("TowersHolder"); //making sure someone doesn't do a stupid
         if (TowersHolder == null) Debug.Log("No TowersHolder was found. Insert an empty into the scene and rename it to TowersHolder");
+        CurrencyManger = GameObject.FindObjectOfType<CurrencyManger>();
+        if (CurrencyManger == null) Debug.Log("No CurrencyManager was found. Insert one into the canvas.");
     }
 
     void Update()
@@ -87,6 +90,9 @@ public class TowerCreation : MonoBehaviour
             CurrentPlacement = null;
             Destroy(PlacementObject);
         };
+
+        if (CurrencyManger == null || CurrencyManger.Currency < Tower.GetComponent<Turret>().Price) return;
+        CurrencyManger.IncreaseCurrency(-Tower.GetComponent<Turret>().Price);
 
         CanPlace = false;
         CurrentPlacement = Tower;
