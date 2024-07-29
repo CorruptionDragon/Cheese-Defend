@@ -516,7 +516,7 @@ MonoBehaviour:
   - {fileID: 315459382}
   - {fileID: 391929977}
   - {fileID: 1825959395}
-  moveSpeed: 3
+  moveSpeed: 2.5
 --- !u!114 &183150845
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3095,6 +3095,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1206156708065087299, guid: 43a7c2dc89a62be478e7bf7a41f5d495, type: 3}
+      propertyPath: moveSpeed
+      value: 1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 1206156708065087299, guid: 43a7c2dc89a62be478e7bf7a41f5d495, type: 3}
       propertyPath: waypoints.Array.data[0]
       value: 
