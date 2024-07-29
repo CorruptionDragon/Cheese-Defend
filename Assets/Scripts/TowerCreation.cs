@@ -92,7 +92,7 @@ public class TowerCreation : MonoBehaviour
         };
 
         if (CurrencyManger == null || CurrencyManger.Currency < Tower.GetComponent<Turret>().Price) return;
-        CurrencyManger.IncreaseCurrency(-Tower.GetComponent<Turret>().Price);
+        //CurrencyManger.IncreaseCurrency(-Tower.GetComponent<Turret>().Price);
 
         CanPlace = false;
         CurrentPlacement = Tower;
