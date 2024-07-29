@@ -20,6 +20,7 @@ public class BasicRoach : MonoBehaviour
 
         if (health <= 0)
         {
+            GameObject.Find("Canvas").GetComponent<CurrencyManger>().IncreaseCurrency(10);
             Destroy(gameObject);
         }
     }
