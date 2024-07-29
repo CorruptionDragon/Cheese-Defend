@@ -49,7 +49,7 @@ public class TowerCreation : MonoBehaviour
             {
                 if (found == true) break;
 
-                if (IsTouchingObject(Child, PlacementObject.transform.GetChild(0).gameObject) == true)
+                if (IsTouchingObject(Child, PlacementObject) == true)
                 {
                     InPlaceable = true;
                     break;
