@@ -16,6 +16,7 @@ public class TowerCreation : MonoBehaviour
     {
         TowersHolder = GameObject.Find("TowersHolder"); //making sure someone doesn't do a stupid
         if (TowersHolder == null) Debug.Log("No TowersHolder was found. Insert an empty into the scene and rename it to TowersHolder");
+        else TowersHolder.transform.position = new Vector3(0, 0, 0);
         CurrencyManger = GameObject.FindObjectOfType<CurrencyManger>();
         if (CurrencyManger == null) Debug.Log("No CurrencyManager was found. Insert one into the canvas.");
     }
@@ -70,13 +71,13 @@ public class TowerCreation : MonoBehaviour
                 return;
             }
 
-            PlacementObject.transform.position = playerMousePosition;
+            PlacementObject.transform.position = new Vector3(playerMousePosition.x, playerMousePosition.y, -1);
         };
     }
 
     void PlaceSelected(Vector2 playerMousePosition)
     {
-        GameObject NewTower = Instantiate(CurrentPlacement, playerMousePosition, Quaternion.identity);
+        GameObject NewTower = Instantiate(CurrentPlacement, new Vector3(playerMousePosition.x, playerMousePosition.y, -1), Quaternion.identity);
         NewTower.name = "Tower";
         NewTower.transform.parent = TowersHolder.transform;
 
@@ -92,7 +93,7 @@ public class TowerCreation : MonoBehaviour
         };
 
         if (CurrencyManger == null || CurrencyManger.Currency < Tower.GetComponent<Turret>().Price) return;
-        //CurrencyManger.IncreaseCurrency(-Tower.GetComponent<Turret>().Price);
+        CurrencyManger.IncreaseCurrency(-Tower.GetComponent<Turret>().Price);
 
         CanPlace = false;
         CurrentPlacement = Tower;
@@ -115,6 +116,8 @@ public class TowerCreation : MonoBehaviour
     bool IsTouchingObject(GameObject First, GameObject Second) //no idea how well this works
     {
         float Size = (Second.transform.localScale.x / 2 + Second.transform.localScale.y / 2) / 2;
+        Vector3 FirstSize = First.transform.localScale;
+        Vector3 FirstPos = First.transform.position;
 
         List<Vector3> Points = new List<Vector3>();
         Points.Add(Second.transform.position + new Vector3(Size, Size, 0));
@@ -125,7 +128,7 @@ public class TowerCreation : MonoBehaviour
         foreach (Vector3 Point in Points)
         {
             Debug.DrawLine(new Vector3(Point.x, Point.y, 1), new Vector3(Second.transform.position.x, Second.transform.position.y, 1), Color.red);
-            if (!First.GetComponent<SpriteRenderer>().bounds.Contains(Point)) return false;
+            if (!(Point.x >= FirstPos.x - FirstSize.x / 2 && Point.x <= FirstPos.x + FirstSize.x / 2 && Point.y >= FirstPos.y - FirstSize.y / 2 && Point.y <= FirstPos.y + FirstSize.y / 2)) return false;
         }
         return true;
     }
