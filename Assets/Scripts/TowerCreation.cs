@@ -77,9 +77,14 @@ public class TowerCreation : MonoBehaviour
 
     void PlaceSelected(Vector2 playerMousePosition)
     {
-        GameObject NewTower = Instantiate(CurrentPlacement, new Vector3(playerMousePosition.x, playerMousePosition.y, -1), Quaternion.identity);
-        NewTower.name = "Tower";
-        NewTower.transform.parent = TowersHolder.transform;
+        if (CurrencyManger.Currency >= CurrentPlacement.GetComponent<Turret>().Price)
+        {
+            CurrencyManger.IncreaseCurrency(-CurrentPlacement.GetComponent<Turret>().Price);
+
+            GameObject NewTower = Instantiate(CurrentPlacement, new Vector3(playerMousePosition.x, playerMousePosition.y, -1), Quaternion.identity);
+            NewTower.name = "Tower";
+            NewTower.transform.parent = TowersHolder.transform;
+        }
 
         CurrentPlacement = null;
         Destroy(PlacementObject);
@@ -93,7 +98,6 @@ public class TowerCreation : MonoBehaviour
         };
 
         if (CurrencyManger == null || CurrencyManger.Currency < Tower.GetComponent<Turret>().Price) return;
-        CurrencyManger.IncreaseCurrency(-Tower.GetComponent<Turret>().Price);
 
         CanPlace = false;
         CurrentPlacement = Tower;
