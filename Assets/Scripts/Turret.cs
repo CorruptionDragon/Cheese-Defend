@@ -69,7 +69,7 @@ public class Turret : MonoBehaviour{
         turretRotationPoint.rotation = Quaternion.RotateTowards(turretRotationPoint.rotation, targetRotation, RotationSpeed * Time.deltaTime);
 
        
-        Debug.Log("Angle Equals " + angle);
+       
     }
 
 
