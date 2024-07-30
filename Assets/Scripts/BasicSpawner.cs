@@ -6,7 +6,7 @@ public class BasicSpawner : MonoBehaviour
 {
     public List<GameObject> prefabs;
     public List<Transform> spawnPoints;
-    public float spawnInterval = 2f;
+    public float spawnInterval = 1f;
 
     public void StartSpawning()
     {
@@ -23,6 +23,7 @@ public class BasicSpawner : MonoBehaviour
     void SpawnEnemy()
     {
         int randomPrefabID = Random.Range(0,prefabs.Count);
-        GameObject spawnedEnemy = Instantiate(prefabs[randomPrefabID]);
+        int randomSpawnPointID = Random.Range(0, spawnPoints.Count);
+        GameObject spawnedEnemy = Instantiate(prefabs[randomPrefabID], spawnPoints[randomSpawnPointID]);
     }
 }
