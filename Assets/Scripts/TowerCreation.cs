@@ -79,7 +79,7 @@ public class TowerCreation : MonoBehaviour
     {
         if (CurrencyManger.Currency >= CurrentPlacement.GetComponent<Turret>().Price)
         {
-            //CurrencyManger.IncreaseCurrency(-CurrentPlacement.GetComponent<Turret>().Price);
+            CurrencyManger.IncreaseCurrency((int)-CurrentPlacement.GetComponent<Turret>().Price);
 
             GameObject NewTower = Instantiate(CurrentPlacement, new Vector3(playerMousePosition.x, playerMousePosition.y, -1), Quaternion.identity);
             NewTower.name = "Tower";
