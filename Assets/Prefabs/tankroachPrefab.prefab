@@ -124,7 +124,6 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 0}
   moveSpeed: 1
 --- !u!50 &5619533559577138874
 Rigidbody2D:
