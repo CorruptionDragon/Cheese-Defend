@@ -14,7 +14,9 @@ public class BasicSpawner : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(spawnEnemy())
+        StartCoroutine(spawnEnemy(basicroachInterval, basicroachPrefab));
+        StartCoroutine(spawnEnemy(fastroachInterval, fastroachPrefab));
+        StartCoroutine(spawnEnemy(tankroachInterval, tankroachPrefab));
     }
 
     private IEnumerator spawnEnemy(float interval, GameObject enemy)
