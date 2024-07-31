@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4632648713090427048}
   - component: {fileID: 1206156708065087299}
   m_Layer: 6
-  m_Name: cockroachPrefab 1
+  m_Name: basicroachPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
