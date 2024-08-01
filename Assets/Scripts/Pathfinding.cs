@@ -30,6 +30,11 @@ public class Pathfinding : MonoBehaviour
         if (waypointIndex <= waypoints.Length - 1)
         {
             transform.position = Vector2.MoveTowards(transform.position, waypoints[waypointIndex].transform.position, moveSpeed * Time.deltaTime);
+            if (waypoints[waypointIndex] != null) {
+                Transform Target = waypoints[waypointIndex].transform;
+                transform.LookAt(Target);
+                transform.Rotate(new Vector3(0, -90, 0), Space.Self);
+            };
         }
 
         if (transform.position == waypoints[waypointIndex].transform.position)
