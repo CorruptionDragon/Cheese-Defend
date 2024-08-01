@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class BasicRoach : MonoBehaviour
 {
-    [SerializeField]
-    private float health = 10;
+    [SerializeField] private float health = 10;
+    [SerializeField] int currency = 10;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -20,7 +20,7 @@ public class BasicRoach : MonoBehaviour
 
         if (health <= 0)
         {
-            GameObject.Find("Canvas").GetComponent<CurrencyManger>().IncreaseCurrency(10);
+            GameObject.Find("Canvas").GetComponent<CurrencyManger>().IncreaseCurrency(currency);
             Destroy(gameObject);
         }
     }
