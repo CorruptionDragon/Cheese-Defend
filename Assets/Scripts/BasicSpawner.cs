@@ -12,6 +12,11 @@ public class BasicSpawner : MonoBehaviour
     [SerializeField] private float fastroachInterval = 3f;
     [SerializeField] private float tankroachInterval = 3f;
 
+    [SerializeField]
+    public Transform[] waypoints;
+
+    public Pathfinding script;
+
     private void Start()
     {
         StartCoroutine(spawnEnemy(basicroachInterval, basicroachPrefab));
@@ -23,6 +28,13 @@ public class BasicSpawner : MonoBehaviour
     {
         yield return new WaitForSeconds(interval);
         GameObject newEnemy = Instantiate(enemy, new Vector3(Random.Range(-5f, 5f), Random.Range(-6f, 6f), 0), Quaternion.identity);
+        script = newEnemy.GetComponent<Pathfinding>();
+
+        if (script != null)
+        {
+            script.waypoints = waypoints;
+        }
+
         StartCoroutine(spawnEnemy(interval, enemy));
     }
 }
