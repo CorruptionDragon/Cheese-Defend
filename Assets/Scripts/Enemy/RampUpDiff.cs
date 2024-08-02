@@ -75,7 +75,7 @@ public class RampUpDiff : MonoBehaviour
         StartCoroutine(StartWave());
     }
 
-    private void SpawnEnemy(float interval, GameObject enemy)
+    private void SpawnEnemy()
     {
         int index = Random.Range(0, enemyPrefabs.Length);
         GameObject prefabToSpawn = enemyPrefabs[index];
