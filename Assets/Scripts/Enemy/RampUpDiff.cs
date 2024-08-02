@@ -43,7 +43,7 @@ public class RampUpDiff : MonoBehaviour
 
         if (timeSinceLastSpawn >= (1f / enemiesPerSecond) && enemiesLeftToSpawn > 0)
         {
-            SpawnEnemy();
+           //tartCoroutine(SpawnEnemy());
             enemiesLeftToSpawn--;
             enemiesAlive++;
             timeSinceLastSpawn = 0f;
@@ -75,8 +75,9 @@ public class RampUpDiff : MonoBehaviour
         StartCoroutine(StartWave());
     }
 
-    private void SpawnEnemy()
+    private IEnumerator SpawnEnemy(float interval, GameObject enemy)
     {
+        yield return new WaitForSeconds(interval);
         int index = Random.Range(0, enemyPrefabs.Length);
         GameObject prefabToSpawn = enemyPrefabs[index];
         GameObject newEnemy = Instantiate(enemyPrefabs[index], new Vector3(Random.Range(-17f, -17f), Random.Range(2f, 2f), 0), Quaternion.identity);
