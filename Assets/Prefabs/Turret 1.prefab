@@ -169,6 +169,7 @@ MonoBehaviour:
   RotationSpeed: 300
   targetingRange: 5
   bps: 2
+  Price: 100
 --- !u!1 &8656754357708496521
 GameObject:
   m_ObjectHideFlags: 0
