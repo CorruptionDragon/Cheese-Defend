@@ -1,28 +1,36 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class NewBehaviourScript : MonoBehaviour
 {
     [SerializeField]
-    private float health = 10;
+    public float health = 10;
+    public Text text;
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    void Update()
     {
-        DecreaseHealth();
+        text.text = health.ToString();
     }
 
-    public void DecreaseHealth()
+    public void OnTriggerEnter2D(Collider2D other)
     {
-        health--;
-
-      
-
-        if (health <= 0)
+        
+        if (other.gameObject.CompareTag("Cockroach"))
         {
-            Destroy(gameObject);
-            SceneManager.LoadScene("LoseScene");
-        }
+            health--;
+
+            Destroy(other.gameObject);
+            if (health <= 0)
+            {
+                Destroy(gameObject);
+                SceneManager.LoadScene("LoseScene");
+            }
+        }       
+
     }
-}
+    }
