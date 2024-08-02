@@ -79,7 +79,7 @@ public class RampUpDiff : MonoBehaviour
     {
         int index = Random.Range(0, enemyPrefabs.Length);
         GameObject prefabToSpawn = enemyPrefabs[index];
-        GameObject newEnemy = Instantiate(prefabToSpawn, new Vector3(Random.Range(-17f, -17f), Random.Range(2f, 2f), 0), Quaternion.identity);
+        GameObject newEnemy = Instantiate(enemyPrefabs[index], new Vector3(Random.Range(-17f, -17f), Random.Range(2f, 2f), 0), Quaternion.identity);
         script = newEnemy.GetComponent<Pathfinding>();
 
         if (script != null)
