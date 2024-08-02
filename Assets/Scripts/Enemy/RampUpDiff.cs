@@ -12,13 +12,18 @@ public class RampUpDiff : MonoBehaviour
     [SerializeField] private float timeBetweenWaves = 5f;
     [SerializeField] private float difficultyScalingFactor = 0.75f;
 
-    public static UnityEvent onEnemyDestroy;
+    public static UnityEvent onEnemyDestroy = new UnityEvent();
 
     private int currentWave = 1;
     private float timeSinceLastSpawn;
     private int enemiesAlive;
     private int enemiesLeftToSpawn;
     private bool isSpawning = false;
+
+    [SerializeField]
+    public Transform[] waypoints;
+
+    public Pathfinding script;
 
     private void Awake()
     {
@@ -27,7 +32,7 @@ public class RampUpDiff : MonoBehaviour
 
     private void Start()
     {
-        StartWave();
+        StartCoroutine(StartWave());
     }
 
     private void Update()
@@ -43,6 +48,11 @@ public class RampUpDiff : MonoBehaviour
             enemiesAlive++;
             timeSinceLastSpawn = 0f;
         }
+
+        if (enemiesAlive == 0&& enemiesLeftToSpawn == 0)
+        {
+            EndWave();
+        }
     }
 
     private void EnemyDestroyed()
@@ -50,16 +60,32 @@ public class RampUpDiff : MonoBehaviour
         enemiesAlive--;
     }
 
-    private void StartWave()
+    private IEnumerator StartWave()
     {
+        yield return new WaitForSeconds(timeBetweenWaves);
         isSpawning = true;
         enemiesLeftToSpawn = baseEnemies;
     }
 
-    private void SpawnEnemy()
+    private void EndWave()
     {
-        GameObject prefabToSpawn = enemyPrefabs[0];
-        Instantiate(prefabToSpawn, BasicSpawner.main.startPoint.position, Quaternion.identity);
+        isSpawning = false;
+        timeSinceLastSpawn = 0f;
+        currentWave++;
+        StartCoroutine(StartWave());
+    }
+
+    private void SpawnEnemy(float interval, GameObject enemy)
+    {
+        int index = Random.Range(0, enemyPrefabs.Length);
+        GameObject prefabToSpawn = enemyPrefabs[index];
+        GameObject newEnemy = Instantiate(prefabToSpawn, new Vector3(Random.Range(-17f, -17f), Random.Range(2f, 2f), 0), Quaternion.identity);
+        script = newEnemy.GetComponent<Pathfinding>();
+
+        if (script != null)
+        {
+            script.waypoints = waypoints;
+        }
     }
 
     private int EnemiesPerWave()
