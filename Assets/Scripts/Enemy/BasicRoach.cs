@@ -20,6 +20,7 @@ public class BasicRoach : MonoBehaviour
 
         if (health <= 0)
         {
+            RampUpDiff.onEnemyDestroy.Invoke();
             GameObject.Find("Canvas").GetComponent<CurrencyManger>().IncreaseCurrency(currency);
             Destroy(gameObject);
         }

@@ -24,6 +24,7 @@ public class NewBehaviourScript : MonoBehaviour
         {
             health--;
 
+            RampUpDiff.onEnemyDestroy.Invoke();
             Destroy(other.gameObject);
             if (health <= 0)
             {
